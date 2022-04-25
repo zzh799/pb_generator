@@ -1,0 +1,35 @@
+<idea-plugin>
+    <id>com.liereal.protobuf_velocity</id>
+    <name>Protobuf-Velocity</name>
+    <vendor email="799828242@qq.com" url="http://www.github.com/zzh799">zzh799</vendor>
+
+    <description><![CDATA[
+    Generate files from protobuf by velocity.<br>
+    <em>most HTML tags may be used</em>
+    ]]></description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>idea.plugin.protoeditor</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <codeInsight.lineMarkerProvider language="protobuf" implementationClass="marker.MessageLineMarkerProvider"/>
+        <notificationGroup id="Custom Notification Group" displayType="BALLOON"/>
+        <!--Protobuf-Velocity settings-->
+        <applicationService serviceImplementation="bean.ProtobufGeneratorSettings"/>
+        <applicationConfigurable groupId="tools"
+                                 displayName="Protobuf-Velocity"
+                                 id="preferences.protobuf_velocity"
+                                 instance="ui.ProtobufVelocitySettingPanel">
+        </applicationConfigurable>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="com.liereal.protobuf_velocity" class="action.GeneraterMoudleAction" text="Generate Module" description="Generate module">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
