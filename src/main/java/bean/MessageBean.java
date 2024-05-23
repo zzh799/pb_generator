@@ -11,7 +11,6 @@ import java.util.List;
 public class MessageBean {
     String packageName;
     String name;
-    String fullName;
     List<FieldBean> fields;
 
     public MessageBean(PbMessageDefinition pbMessageDefinition) {
@@ -29,7 +28,6 @@ public class MessageBean {
         } else {
             this.name = nameIdentifier.getText();
         }
-        this.fullName = fileName + "." + this.name;
         this.fields = new ArrayList<>();
 
         PbMessageBody body = pbMessageDefinition.getBody();
@@ -62,13 +60,5 @@ public class MessageBean {
 
     public void setFields(List<FieldBean> fields) {
         this.fields = fields;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 }

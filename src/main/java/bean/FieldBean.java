@@ -64,4 +64,18 @@ public class FieldBean {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public String getDefaultValue(){
+        if (type.equals("string")) {
+            return "\"\"";
+        } else if (type.equals("bool")) {
+            return "false";
+        } else if (type.equals("int32") || type.equals("int64") || type.equals("uint32") || type.equals("uint64")) {
+            return "0";
+        } else if (type.equals("float") || type.equals("double")) {
+            return "0.0";
+        } else {
+            return "null";
+        }
+    }
 }

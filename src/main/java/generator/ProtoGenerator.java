@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 import java.nio.file.Path;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ProtoGenerator {
@@ -20,10 +21,10 @@ public class ProtoGenerator {
         Project project = pbMessageDefinition.getProject();
 
         HashMap<String, Object> map = new HashMap<>();
-        map.put("date", DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.CHINA).format(new Date()));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        map.put("date", dateFormat.format(new Date()));
         map.put("author", ProtobufGeneratorSettings.getInstance().getAuthor());
         map.put("StringUtils", new StringUtils());
-        map.put("messageDefinition", pbMessageDefinition);
         MessageBean value = new MessageBean(pbMessageDefinition);
         map.put("message", value);
         map.put("packageName", value.getPackageName());
