@@ -10,7 +10,7 @@
 
 ## 示例（Sample 1）:
 
-Entity.proto:
+### Entity.proto:
 
 ```protobuf
 message Person {
@@ -19,7 +19,8 @@ message Person {
 }
 ```
 
-Velocity 模板文件:
+### [Velocity](https://velocity.apache.org/engine/) 模板文件: table.lua
+
 
 ```lua
 --[[
@@ -38,14 +39,12 @@ table $packageName.$messageName = {
 #end
 }
 ```
-生成操作演示：
+### 生成操作演示：
 
 ![生成操作演示](res/generate.gif)
 
-生成结果:
-
-Person.lua:
-
+### 生成结果 Person.lua:
+生成文件拓展名与模板文件拓展名一致，且文件名与 message 名称一致。
 ```lua
 --[[
 @Author: Unknown
@@ -58,5 +57,5 @@ table Entity.Person = {
 }
 ```
 
-若文件已存在，变为对比操作：
+### 若文件已存在，变为对比操作：
 ![对比操作](res/compare.gif)
