@@ -1,33 +1,43 @@
 plugins {
-    id 'org.jetbrains.intellij' version '1.2.0'
+    id 'org.jetbrains.intellij' version '1.17.3'
     id 'java'
 }
 
 group 'com.liereal'
 version '0.0.9'
 
+tasks {
+    compileJava{
+        options.encoding = "UTF-8"
+    }
+}
+
 repositories {
+    maven { url 'https://maven.aliyun.com/repository/central' }
+    maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    test {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    }
 }
 
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = '2021.2.3'
-    localPath = System.getenv("IDEA_HOME_213")
-    plugins = ['idea.plugin.protoeditor:213.5744.224']
+    version = '2024.1.1'
+//    localPath = "/Applications/IntelliJ IDEA CE.app"
+    plugins = ['idea.plugin.protoeditor:241.14494.150']
 }
 patchPluginXml {
     changeNotes = """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
-    sinceBuild = "212"
-    untilBuild = "213.*"
+      Support Protobuf Message quick generate code by velocity.
+      """
+    sinceBuild = "231"
+    untilBuild = "241.*"
 }
 test {
     useJUnitPlatform()

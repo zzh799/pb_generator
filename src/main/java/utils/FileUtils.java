@@ -76,7 +76,7 @@ public class FileUtils {
                         copyToClipboard(result);
                     } else if (s.equals("save to...")) {
                         try {
-                            openSaveFileDialog(project, outputFile.getName(), result);
+                            openSaveFileDialog(project, outputFile.getPath(), result);
                         } catch (Throwable ex) {
                             ex.printStackTrace();
                         }
@@ -116,7 +116,7 @@ public class FileUtils {
     }
 
     public static void openSaveFileDialog(Project project, String fileName, String result) throws Throwable {
-        FileSaverDescriptor fileSaverDescriptor = new FileSaverDescriptor("保存" + fileName, "保存" + fileName, "lua");
+        FileSaverDescriptor fileSaverDescriptor = new FileSaverDescriptor("保存" + fileName, "保存" + fileName);
         String basePath = project.getBasePath();
         assert basePath != null;
         VirtualFileWrapper wrapper = FileChooserFactory

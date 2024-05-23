@@ -33,7 +33,8 @@ public class ProtoGenerator {
             Path basePath = Path.of(Objects.requireNonNull(project.getBasePath()));
             Path outputDirPath = basePath.resolve(settings.getProtoGenDesDir());
             outputDirPath = FileUtils.getPath(outputDirPath, value.getPackageName(), settings.isGenerateFromFileName());
-            String fileName = value.getName().replace("Msg", "") + ".lua";
+            String ext = template.getPath().substring(template.getPath().lastIndexOf('.'));
+            String fileName = value.getName().replace("Msg", "") + ext;
             File outputFile = outputDirPath.resolve(fileName).toFile();
             FileUtils.showGeneratePop(VelocityUtils.generate(FileUtils.ReadAll(template), map), e, project, outputFile);
         } catch (IOException err) {

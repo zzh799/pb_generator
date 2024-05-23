@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class GeneraterMoudleAction extends AnAction {
+public class GenerateModuleAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         ProtobufGeneratorSettings settings = ProtobufGeneratorSettings.getInstance();
@@ -40,7 +40,7 @@ public class GeneraterMoudleAction extends AnAction {
         }
         String moduleName = outputDirPath.getFileName().toString();
 
-        File[] luaFiles = projectBasePath.resolve(".lua_generator").toFile().listFiles(pathname -> pathname.getName().endsWith(".lua"));
+        File[] templates = projectBasePath.resolve(settings.getTempDir()).toFile().listFiles(pathname -> !pathname.isDirectory());
 
         Map<String, Object> map = new HashMap<>();
         map.put("moduleName", moduleName);
@@ -48,14 +48,14 @@ public class GeneraterMoudleAction extends AnAction {
         map.put("dataTime", DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.CHINA).format(new Date()));
 
 
-        assert luaFiles != null;
-        for (File luaFile : luaFiles) {
+        assert templates != null;
+        for (File template : templates) {
 
-            String newFileName = luaFile.getName().replace("${moduleName}", moduleName);
+            String newFileName = template.getName().replace("${moduleName}", moduleName);
             File newFile = outputDirPath.resolve(newFileName).toFile();
             if (!newFile.exists()) {
                 try {
-                    FileUtils.WriteAll(newFile, VelocityUtils.generate(FileUtils.ReadAll(luaFile), map));
+                    FileUtils.WriteAll(newFile, VelocityUtils.generate(FileUtils.ReadAll(template), map));
                     FileUtils.OpenFile(project, newFile);
                     NotifyUtils.notifyInfo(project, newFile.getName() + "gen success");
                 } catch (IOException ex) {

@@ -20,7 +20,6 @@ public class VelocityUtils {
 
     static {
         INIT_PROP = new Properties();
-        INIT_PROP.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, "org.apache.velocity.runtime.log.Log4JLogChute");
         INIT_PROP.setProperty("runtime.log.logsystem.log4j.logger", "velocity");
     }
 

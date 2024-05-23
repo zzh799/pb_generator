@@ -9,14 +9,14 @@ import com.intellij.openapi.components.Storage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@State(name = "LuaGeneratorSettings", storages = @Storage("lua_generator.xml"))
+@State(name = "PbGeneratorSettings", storages = @Storage("pb_generator.xml"))
 public class ProtobufGeneratorSettings implements PersistentStateComponent<ProtobufGeneratorSettings> {
-    private String author = "Tornado";
+    private String author = "Unknown";
     private boolean generateFromFileName = true;
-    private String protoResDir = "protobuffile";
-    private String protoGenDesDir = "Assets/LuaFramework/Lua/Logic";
-    private String UIGenDesDir = "Assets/LuaFramework/Lua/UI";
-    private String tempDir = ".lua_generator";
+//    private String protoResDir = "proto";
+    private String protoGenDesDir = "gen";
+//    private String UIGenDesDir = "Assets/LuaFramework/Lua/UI";
+    private String tempDir = "pb_template";
 
     public static ProtobufGeneratorSettings getInstance() {
         return ApplicationManager.getApplication().getService(ProtobufGeneratorSettings.class);
@@ -49,13 +49,13 @@ public class ProtobufGeneratorSettings implements PersistentStateComponent<Proto
         this.generateFromFileName = generateFromFileName;
     }
 
-    public String getProtoResDir() {
-        return protoResDir;
-    }
-
-    public void setProtoResDir(String protoResDir) {
-        this.protoResDir = protoResDir;
-    }
+//    public String getProtoResDir() {
+//        return protoResDir;
+//    }
+//
+//    public void setProtoResDir(String protoResDir) {
+//        this.protoResDir = protoResDir;
+//    }
 
     public String getProtoGenDesDir() {
         return protoGenDesDir;
@@ -65,13 +65,13 @@ public class ProtobufGeneratorSettings implements PersistentStateComponent<Proto
         this.protoGenDesDir = protoGenDesDir;
     }
 
-    public String getUIGenDesDir() {
-        return UIGenDesDir;
-    }
-
-    public void setUIGenDesDir(String UIGenDesDir) {
-        this.UIGenDesDir = UIGenDesDir;
-    }
+//    public String getUIGenDesDir() {
+//        return UIGenDesDir;
+//    }
+//
+//    public void setUIGenDesDir(String UIGenDesDir) {
+//        this.UIGenDesDir = UIGenDesDir;
+//    }
 
     public String getTempDir() {
         return tempDir;
