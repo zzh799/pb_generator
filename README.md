@@ -5,7 +5,10 @@
 
 `pb_generator` 是一个 JetBrains 插件，用于通过 Velocity 模板生成 Protobuf 代码。
 
-示例（Sample 1）:
+![](res/generate.gif)
+![setting panel](res/setting.png)
+
+## 示例（Sample 1）:
 
 Entity.proto:
 
@@ -35,6 +38,10 @@ table $packageName.$messageName = {
 #end
 }
 ```
+生成操作演示：
+
+![生成操作演示](res/generate.gif)
+
 生成结果:
 
 Person.lua:
@@ -50,3 +57,6 @@ table Entity.Person = {
     name = "",  -- pb_type: string, pb_number: 2, pb_comment: person name
 }
 ```
+
+若文件已存在，变为对比操作：
+![对比操作](res/compare.gif)
