@@ -34,7 +34,7 @@ intellij {
 }
 patchPluginXml {
     changeNotes = """
-      Support Protobuf Message quick generate code by velocity.
+      Support Protobuf Message quick generate code using velocity.
       """
     sinceBuild = "231"
     untilBuild = "241.*"

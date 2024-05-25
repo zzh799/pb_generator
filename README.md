@@ -1,16 +1,14 @@
 
-# pb_generator
+# Protobuf Code Generator
 
-## JetBrains Plugin for Protobuf Code Generation with Velocity
-
-`pb_generator` 是一个 JetBrains 插件，用于通过 Velocity 模板生成 Protobuf 代码。
+## Protobuf Code Generation Using Velocity
 
 ![](res/generate.gif)
 ![setting panel](res/setting.png)
 
-## 示例（Sample 1）:
-
-### Entity.proto:
+## how to use:
+### 1. Prepare a Protobuf File and Write a Message:
+**Entity.proto:**
 
 ```protobuf
 message Person {
@@ -19,7 +17,8 @@ message Person {
 }
 ```
 
-### [Velocity](https://velocity.apache.org/engine/) 模板文件: table.lua
+### 2.Design a [Velocity](https://velocity.apache.org/engine/) Template File: 
+**table.lua**
 
 
 ```lua
@@ -28,23 +27,25 @@ message Person {
 @Date: $date
 @Description: TODO:
 ]]
-## 定义一个宏来格式化输出
+## Define a macro to format output
 #macro(displayField $field)
     $field.name = $field.defaultValue,  -- pb_type: $field.type, pb_number: $field.number, pb_comment: $field.comment
 #end
-## 使用 foreach 指令来迭代字段列表
+## Use the foreach directive to iterate over the field list
 table $packageName.$messageName = {
 #foreach( $field in $message.fields)
     #displayField($field)
 #end
 }
 ```
-### 生成操作演示：
+### 3.Click the Line Marker to Generate Code:
 
-![生成操作演示](res/generate.gif)
+![generate](res/generate.gif)
 
-### 生成结果 Person.lua:
-生成文件拓展名与模板文件拓展名一致，且文件名与 message 名称一致。
+**Generated Result**:
+
+**Person.lua:**
+The generated file has an extension consistent with the template file's extension, and the file name matches the message name.
 ```lua
 --[[
 @Author: Unknown
@@ -57,5 +58,10 @@ table Entity.Person = {
 }
 ```
 
-### 若文件已存在，变为对比操作：
-![对比操作](res/compare.gif)
+### If the File Already Exists, It Performs a Comparison Operation:
+![compare](res/compare.gif)
+
+## Dependencies
+- **Protocol Buffers IntelliJ IDEs Plugin**
+    - **Plugin link**: [Protocol Buffers - IntelliJ IDEs Plugin](https://plugins.jetbrains.com/plugin/14004-protocol-buffers)
+    - **Copyright**: © 2000-2024 JetBrains s.r.o.

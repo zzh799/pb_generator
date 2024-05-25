@@ -6,10 +6,10 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
-import com.intellij.openapi.util.IconLoader;
 import com.intellij.protobuf.lang.psi.impl.PbMessageDefinitionImpl;
 import com.intellij.psi.PsiElement;
 import com.intellij.ui.awt.RelativePoint;
+import icons.MyIcons;
 import org.jetbrains.annotations.NotNull;
 import generator.ProtoGenerator;
 
@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class MessageLineMarkerProvider implements LineMarkerProvider {
-    private static final Icon ICON = IconLoader.getIcon("/icons/protoMessage.png");
 
 
     private static final GutterIconNavigationHandler<PbMessageDefinitionImpl> SHOW_SENDERS =
@@ -37,7 +36,7 @@ public class MessageLineMarkerProvider implements LineMarkerProvider {
                     Path projectPath = Path.of(projectPathUri);
                     ProtobufGeneratorSettings settings = ProtobufGeneratorSettings.getInstance();
                     List<File> files = List.of(Objects.requireNonNull(projectPath.resolve(settings.getTempDir()).toFile().listFiles(pathname -> !pathname.isDirectory())));
-                    if (files.size() == 0) {
+                    if (files.isEmpty()) {
                         Messages.showErrorDialog("no template file found", "Error");
                         return;
                     }
@@ -57,37 +56,30 @@ public class MessageLineMarkerProvider implements LineMarkerProvider {
                 }
             };
 
+    private LineMarkerInfo<PbMessageDefinitionImpl> createLineMarkerInfo(PbMessageDefinitionImpl element) {
+        return new LineMarkerInfo<>(element,
+                element.getTextRange(),
+                MyIcons.protoMessage,
+                e -> "generate " + element.getName(),
+                SHOW_SENDERS,
+                GutterIconRenderer.Alignment.LEFT,
+                () -> null);
+    }
 
     @Override
     public LineMarkerInfo<?> getLineMarkerInfo(@NotNull PsiElement psiElement) {
-        if (psiElement instanceof PbMessageDefinitionImpl) { // ACTUALLY DONT!
-            PbMessageDefinitionImpl element = (PbMessageDefinitionImpl) psiElement;
-            return new LineMarkerInfo<>(element,
-                    element.getTextRange(),
-                    ICON,
-                    e -> "generate " + element.getName(),
-                    SHOW_SENDERS,
-                    GutterIconRenderer.Alignment.LEFT,
-                    () -> null);
-        } else {
-            return null;
+        if (psiElement instanceof PbMessageDefinitionImpl) {
+            return createLineMarkerInfo((PbMessageDefinitionImpl) psiElement);
         }
+        return null;
     }
 
     @Override
     public void collectSlowLineMarkers(@NotNull List<? extends PsiElement> elements, @NotNull Collection<? super LineMarkerInfo<?>> result) {
-        for (PsiElement psiElement : elements) {
-            if (psiElement instanceof PbMessageDefinitionImpl) { // ACTUALLY DONT!
-                PbMessageDefinitionImpl element = (PbMessageDefinitionImpl) psiElement;
-                result.add(new LineMarkerInfo<>(element,
-                        element.getTextRange(),
-                        ICON,
-                        e -> "generate " + element.getName(),
-                        SHOW_SENDERS,
-                        GutterIconRenderer.Alignment.LEFT,
-                        () -> null));
-            }
-        }
-//        LineMarkerProvider.super.collectSlowLineMarkers(elements, result);
+//        for (PsiElement psiElement : elements) {
+//            if (psiElement instanceof PbMessageDefinitionImpl) {
+//                result.add(createLineMarkerInfo((PbMessageDefinitionImpl) psiElement));
+//            }
+//        }
     }
 }
