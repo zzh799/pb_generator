@@ -38,7 +38,6 @@ table $packageName.$messageName = {
 }</code></pre>
 
     <h3>3.Click the Line Marker to Generate Code.</h3>
-    <img src="https://github.com/zzh799/pb_generator/raw/master/res/generate.gif"></img>
     <p>Person.lua:</p>
     <pre><code>--[[
 @Author: Unknown
