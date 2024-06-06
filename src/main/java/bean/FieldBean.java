@@ -3,6 +3,7 @@ package bean;
 import com.intellij.protobuf.lang.psi.*;
 import com.intellij.protobuf.lang.psi.util.PbCommentUtil;
 import com.intellij.psi.PsiComment;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -12,14 +13,17 @@ public class FieldBean {
     String type;
     String comment;
 
-    public FieldBean(PbSimpleField pbSimpleField) {
+    boolean isRepeated;
+    boolean isOptional;
+    boolean isRequired;
+
+    public FieldBean(PbField pbSimpleField) {
         this.name = pbSimpleField.getName();
-        PbTypeName typeName = pbSimpleField.getTypeName();
-        if (typeName.isBuiltInType()) {
-            this.type = typeName.getText();
-        } else {
-            this.type = typeName.getText().replace(".", "_pb.");
-        }
+        this.type = parseType(pbSimpleField.getTypeName());
+        this.isRepeated = pbSimpleField.getCanonicalLabel() == PbField.CanonicalFieldLabel.REPEATED;
+        // isOptional isRequired
+        this.isOptional = pbSimpleField.getCanonicalLabel() == PbField.CanonicalFieldLabel.OPTIONAL;
+        this.isRequired = pbSimpleField.getCanonicalLabel() == PbField.CanonicalFieldLabel.REQUIRED;
 
         this.number = pbSimpleField.getFieldNumber().getNumber().intValue();
         List<PsiComment> psiComments = PbCommentUtil.collectTrailingComments(pbSimpleField);
@@ -30,6 +34,14 @@ public class FieldBean {
             }
         } else {
             this.comment = "";
+        }
+    }
+
+    protected String parseType(@Nullable PbTypeName typeName) {
+        if (typeName.isBuiltInType()) {
+            return typeName.getText();
+        } else {
+            return typeName.getText().replace(".", "_pb.");
         }
     }
 
@@ -65,6 +77,28 @@ public class FieldBean {
         this.comment = comment;
     }
 
+    public boolean getIsRepeated() {
+        return isRepeated;
+    }
+
+    public void setIsRepeated(boolean repeated) {
+        isRepeated = repeated;
+    }
+
+    public boolean getIsOptional() {
+        return isOptional;
+    }
+
+    public void setIsOptional(boolean optional) {
+        isOptional = optional;
+    }
+    public boolean getIsRequired() {
+        return isRequired;
+    }
+
+    public void setIsRequired(boolean required) {
+        isRequired = required;
+    }
     public String getDefaultValue(){
         if (type.equals("string")) {
             return "\"\"";

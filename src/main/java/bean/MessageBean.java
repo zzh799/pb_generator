@@ -12,6 +12,7 @@ public class MessageBean {
     String packageName;
     String name;
     List<FieldBean> fields;
+    List<MapFieldBean> mapFields;
 
     public MessageBean(PbMessageDefinition pbMessageDefinition) {
         PbPackageStatement packageStatement = pbMessageDefinition.getPbFile().getPackageStatement();
@@ -29,11 +30,14 @@ public class MessageBean {
             this.name = nameIdentifier.getText();
         }
         this.fields = new ArrayList<>();
-
+        this.mapFields = new ArrayList<>();
         PbMessageBody body = pbMessageDefinition.getBody();
         if (body != null) {
             for (PbSimpleField pbSimpleField : body.getSimpleFieldList()) {
                 fields.add(new FieldBean(pbSimpleField));
+            }
+            for (PbMapField mapField : body.getMapFieldList()) {
+                mapFields.add(new MapFieldBean(mapField));
             }
         }
     }
@@ -60,5 +64,13 @@ public class MessageBean {
 
     public void setFields(List<FieldBean> fields) {
         this.fields = fields;
+    }
+
+    public List<MapFieldBean> getMapFields() {
+        return mapFields;
+    }
+
+    public void setMapFields(List<MapFieldBean> mapFields) {
+        this.mapFields = mapFields;
     }
 }
