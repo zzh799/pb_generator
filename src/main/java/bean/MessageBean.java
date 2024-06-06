@@ -3,6 +3,7 @@ package bean;
 import com.intellij.protobuf.lang.psi.*;
 import com.intellij.protobuf.lang.psi.impl.PbMessageBodyImpl;
 import com.intellij.psi.PsiElement;
+import groovyjarjarantlr.debug.MessageAdapter;
 import utils.StringUtils;
 
 import java.util.ArrayList;
@@ -13,7 +14,8 @@ public class MessageBean {
     String name;
     List<FieldBean> fields;
     List<MapFieldBean> mapFields;
-
+    List<MessageBean> subMessages;
+    List<EnumBean> enums;
     public MessageBean(PbMessageDefinition pbMessageDefinition) {
         PbPackageStatement packageStatement = pbMessageDefinition.getPbFile().getPackageStatement();
         String fileName = "";
@@ -31,14 +33,14 @@ public class MessageBean {
         }
         this.fields = new ArrayList<>();
         this.mapFields = new ArrayList<>();
+        this.subMessages = new ArrayList<>();
+        this.enums = new ArrayList<>();
         PbMessageBody body = pbMessageDefinition.getBody();
         if (body != null) {
-            for (PbSimpleField pbSimpleField : body.getSimpleFieldList()) {
-                fields.add(new FieldBean(pbSimpleField));
-            }
-            for (PbMapField mapField : body.getMapFieldList()) {
-                mapFields.add(new MapFieldBean(mapField));
-            }
+            body.getSimpleFieldList().forEach(pbSimpleField -> fields.add(new FieldBean(pbSimpleField)));
+            body.getMapFieldList().forEach(mapField -> mapFields.add(new MapFieldBean(mapField)));
+            body.getMessageDefinitionList().forEach(message -> subMessages.add(new MessageBean(message)));
+            body.getEnumDefinitionList().forEach(enumDefinition -> enums.add(new EnumBean(enumDefinition)));
         }
     }
 
@@ -73,4 +75,22 @@ public class MessageBean {
     public void setMapFields(List<MapFieldBean> mapFields) {
         this.mapFields = mapFields;
     }
+
+    public List<MessageBean> getSubMessages() {
+        return subMessages;
+    }
+
+    public void setSubMessages(List<MessageBean> subMessages) {
+        this.subMessages = subMessages;
+    }
+
+
+    public List<EnumBean> getEnums() {
+        return enums;
+    }
+
+    public void setEnums(List<EnumBean> enums) {
+        this.enums = enums;
+    }
+
 }

@@ -1,9 +1,6 @@
 package bean;
 
-import com.intellij.protobuf.lang.psi.PbEnumBody;
-import com.intellij.protobuf.lang.psi.PbEnumValue;
-import com.intellij.protobuf.lang.psi.PbMessageBody;
-import com.intellij.protobuf.lang.psi.PbPackageStatement;
+import com.intellij.protobuf.lang.psi.*;
 import com.intellij.protobuf.lang.psi.impl.PbEnumDefinitionImpl;
 import com.intellij.psi.PsiElement;
 
@@ -16,7 +13,7 @@ public class EnumBean {
     String name;
     List<EnumValueBean> values;
 
-    public EnumBean(PbEnumDefinitionImpl psiElement) {
+    public EnumBean(PbEnumDefinition psiElement) {
         PbPackageStatement packageStatement = psiElement.getPbFile().getPackageStatement();
         String fileName = "";
         if (packageStatement == null || packageStatement.getPackageName() == null) {

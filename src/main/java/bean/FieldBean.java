@@ -17,16 +17,16 @@ public class FieldBean {
     boolean isOptional;
     boolean isRequired;
 
-    public FieldBean(PbField pbSimpleField) {
-        this.name = pbSimpleField.getName();
-        this.type = parseType(pbSimpleField.getTypeName());
-        this.isRepeated = pbSimpleField.getCanonicalLabel() == PbField.CanonicalFieldLabel.REPEATED;
+    public FieldBean(PbField pbField) {
+        this.name = pbField.getName();
+        this.type = parseType(pbField.getTypeName());
+        this.isRepeated = pbField.getCanonicalLabel() == PbField.CanonicalFieldLabel.REPEATED;
         // isOptional isRequired
-        this.isOptional = pbSimpleField.getCanonicalLabel() == PbField.CanonicalFieldLabel.OPTIONAL;
-        this.isRequired = pbSimpleField.getCanonicalLabel() == PbField.CanonicalFieldLabel.REQUIRED;
+        this.isOptional = pbField.getCanonicalLabel() == PbField.CanonicalFieldLabel.OPTIONAL;
+        this.isRequired = pbField.getCanonicalLabel() == PbField.CanonicalFieldLabel.REQUIRED;
 
-        this.number = pbSimpleField.getFieldNumber().getNumber().intValue();
-        List<PsiComment> psiComments = PbCommentUtil.collectTrailingComments(pbSimpleField);
+        this.number = pbField.getFieldNumber().getNumber().intValue();
+        List<PsiComment> psiComments = PbCommentUtil.collectTrailingComments(pbField);
         if (psiComments.size() > 0) {
             this.comment = psiComments.get(0).getText().replace("//", "");
             if (this.comment.endsWith(" ")) {
